@@ -2,8 +2,7 @@
 %Created September 2nd 2025 by Alex(andria) Samson
 %for the McLab and MAS Collab
 
-%Import Data(go to HOME tab and cick on Import Data): 'MAS_FAIR
-%Reveiw.xlsx'; sheet "data_sorted"
+%Import Data(go to HOME tab and cick on Import Data): 'MAS_FAIR Reveiw.xlsx'; sheet "data_sorted"
 %import as a NUMERIC MATRIX and name it data 
 
 %Legend for this numeric matrix 
@@ -56,12 +55,13 @@ num_cond = 3;
 num_subj = [sum(data(:, 27) == 1), sum(data(:, 27) == 4),...
     sum(data(:, 27) == 7), sum(data(:, 27) == 10)];
 subcort_vols_range = [6:18,20]; %no right accumbens because participants had 0 values for this brain region
-datamat_lst = arrayfun(@(i) data(data(:, 58) == i, subcort_vols_range), ...
+datamat_lst = arrayfun(@(i) data(data(:, 28) == i, subcort_vols_range), ...
     1:4, 'UniformOutput', false);
 
 result_mcpls_sex_time_diagnosis_raw = pls_analysis(datamat_lst,num_subj,num_cond,option);
 
 %FIGURE 1 (LV1) 
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_raw.boot_result.compare_u(:,1));
 hold on;
@@ -89,6 +89,7 @@ xticklabels(group_names);
 ylabel('Design Saliences');
 
 %FIGURE 2 (LV2) 
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_raw.boot_result.compare_u(:,2));
 hold on;
@@ -163,7 +164,8 @@ datamat_lst = arrayfun(@(i) data_residdata_sorted(data_residdata_sorted(:,28) ==
 
 result_mcpls_sex_time_diagnosis_resid_2visits = pls_analysis(datamat_lst,num_subj,num_cond,option);
 
-%FIGURE 3a (LV1) 
+%FIGURE 3a (LV1)
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_resid_2visits.boot_result.compare_u(:,1));
 hold on;
@@ -189,6 +191,7 @@ xticklabels(group_names(:,[1:2,4:5,7:8,10:11]));
 ylabel('Design Saliences');
 
 %FIGURE 3b (LV2) 
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_resid_2visits.boot_result.compare_u(:,2));
 hold on;
@@ -225,6 +228,7 @@ datamat_lst = arrayfun(@(i) data_non_converters(data_non_converters(:, 28) == i,
 result_mcpls_sex_time_diagnosis_raw_nonConverters = pls_analysis(datamat_lst,num_subj,num_cond,option);
 
 %FIGURE 4a (LV1) 
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_raw_nonConverters.boot_result.compare_u(:,1));
 hold on;
@@ -250,6 +254,7 @@ xticklabels(group_names);
 ylabel('Design Saliences');
 
 %FIGURE 4b (LV2) 
+figure;
 subplot(2,1,1);
 b = bar(result_mcpls_sex_time_diagnosis_raw_nonConverters.boot_result.compare_u(:,2));
 hold on;
@@ -274,3 +279,4 @@ xtickangle(45);
 xticklabels(group_names);
 
 ylabel('Design Saliences');
+
