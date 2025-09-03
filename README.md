@@ -6,7 +6,7 @@ The excel file can be found on Compute Canada. To access the data/excel file and
 2. Navigate to the folder where you want to run the code, for example, your Documents folder: cd ~/Documents
 3. Clone the repository: git clone https://github.com/nosmasa/MAS_analyses-sex-time-and-group-effects--FAIR-Review-.git
 4. Change into the repository directory: cd MAS_analyses-sex-time-and-group-effects--FAIR-Review-
-5. Copy a file from Compute Canada (replace <user> with your username and <path> with the full path to the file on Compute Canada): scp <user>@fir.computecanada.ca:/project/def-rmcintos/nosmasa
+5. Copy a file from Compute Canada (replace <user> with your username): scp <user>@fir.computecanada.ca:/project/def-rmcintos/nosmasa .
 This will download the file directly into your local repository folder.
 
 ## R File  
