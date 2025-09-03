@@ -1,7 +1,13 @@
 # Analysis code for: "Sex differences in subcortical atrophy and cognition in late-life aging and mild cognitive impairment: Six-year longitudinal findings from the Sydney Memory and Ageing Study "
-This page includes the analysis code for the above mentioned manuscript. The analyses in this manuscript can be reproduced using excel file ('MAS_FAIR Review.xlsx') and code included here. The code was run in MatLab and R. 
+This page includes the analysis code for the above mentioned manuscript. The analyses in this manuscript can be reproduced using excel file ('MAS_FAIR Review.xlsx') and code included here. The code was run in R and MatLab. 
 
-You will need to download or clone at least the excel file to your local computer to complete the below. 
+The excel file can be found on Compute Canada. To access the data/excel file and to run the scripts do the following... 
+1. Open a terminal on your computer.
+2. Navigate to the folder where you want to run the code, for example, your Documents folder: cd ~/Documents
+3. Clone the repository: git clone https://github.com/nosmasa/MAS_analyses-sex-time-and-group-effects--FAIR-Review-.git
+4. Change into the repository directory: cd MAS_analyses-sex-time-and-group-effects--FAIR-Review-
+5. Copy a file from Compute Canada (replace <user> with your username and <path> with the full path to the file on Compute Canada): scp <user>@fir.computecanada.ca:/project/def-rmcintos/nosmasa
+This will download the file directly into your local repository folder.
 
 ## R File  
 Use the "after_outliers_removed" sheet from the excel file and run the code in the R script to recreate and check Figures 5 and 6, as well as Table 5. 
@@ -61,17 +67,11 @@ This repository contains the MATLAB script for running three PLS analyses and ge
 
 3. Run the Analyses - The MATLAB script performs the following steps:
    
-   a) Run MC-PLS of Raw Subcortical Volumes: Compares diagnostic groups across time and sex.
-   
+   a) Run MC-PLS of Raw Subcortical Volumes: Compares diagnostic groups across time and sex.   
    b) Generate Figures 1 and 2 (LV1 and LV2 for raw data).
-   
    c) Convert Raw Volumes to ICV-Adjusted Volumes: Residualizes subcortical brain volumes for intracranial volume (ICV).
-   
    d) Run MC-PLS on these ICV-adjusted volumes: Compares diagnostic groups across time and sex (2 visits).
-   
    e) Generate Figures 3a and 3b (LV1 and LV2 for residualized data).
-   
    f) Run MC-PLS of Non-Converters Only: : Compares diagnostic groups across time and sex (N = 85). 
     - Filters out participants who converted to MCI/AD.
-      
-   g) Generates Figures 4a and 4b (LV1 and LV2 for non-converters).
+   g) Generate Figures 4a and 4b (LV1 and LV2 for non-converters).
