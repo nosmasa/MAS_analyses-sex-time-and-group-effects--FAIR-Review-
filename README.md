@@ -28,7 +28,7 @@ Use the "after_outliers_removed" sheet from the excel file and run the code in t
 
 4. Figure 6 (Three-way interactions):Examines significant three-way interactions of sex, diagnosis, and wave on two brain regions:
 
-(a) Right hippocampus and (b) Brainstem
+   (a) Right hippocampus and (b) Brainstem
   - Produces plots showing how diagnosis and sex jointly influence trajectories across waves.
   - Compare your outputs here to the Figure 6 PNG. 
 
