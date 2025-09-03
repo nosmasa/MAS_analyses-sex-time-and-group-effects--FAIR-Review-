@@ -127,19 +127,21 @@ MCI = data_2visits(data_2visits(:,26)==1,:);
 % Residualizing CU brain regions 
 CU_brain_vols_datamat_2visits = CU(:,[6:18,20]); %volumes (with no R accumbens)
 CU_ICV_vols = CU(:,25); %ICV value 
+CU_ICV_vols_mm3 = CU_ICV_vols * 1000;  % convert to mm^3
 
 [r c]=size(CU_brain_vols_datamat_2visits);
 intercept=ones(r,1);
-beta=[double(intercept) double(CU_ICV_vols)] \ double(CU_brain_vols_datamat_2visits);
-CU_pred=[double(intercept) double(CU_ICV_vols)]*beta;
-CU_brain_vols_datamat_2visits_resid=CU_brain_vols_datamat_2visits-CU_pred;
+beta = [double(intercept) double(CU_ICV_vols_mm3)] \ double(CU_brain_vols_datamat_2visits);
+CU_pred = [double(intercept) double(CU_ICV_vols_mm3)] * beta;
+CU_brain_vols_datamat_2visits_resid = CU_brain_vols_datamat_2visits - CU_pred;
 
 %MILD COGNITIVE IMPAIRMENT (MCI)
 MCI_brain_vols_datamat_2visits = MCI(:,[6:18,20]); %volumes 
 MCI_ICV_vols = MCI(:,25); %ICV value 
+MCI_ICV_vols_mm3 = MCI_ICV_vols * 1000;  % convert to mm^3
 
 intercept = ones(80,1); %80 = number of MCI participants 
-MCI_pred=[double(intercept) double(MCI_ICV_vols)]*beta;
+MCI_pred=[double(intercept) double(MCI_ICV_vols_mm3)]*beta;
 MCI_brain_vols_datamat_2visits_resid=MCI_brain_vols_datamat_2visits-MCI_pred;
 
 %vertically concatenate diagnosis data 
@@ -270,4 +272,5 @@ errorbar([1:12],result_mcpls_sex_time_diagnosis_raw_nonConverters.boot_result.or
 xticks([1:12]);
 xtickangle(45);
 xticklabels(group_names);
+
 ylabel('Design Saliences');
