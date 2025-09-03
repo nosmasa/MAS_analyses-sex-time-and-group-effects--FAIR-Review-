@@ -62,16 +62,10 @@ This repository contains the MATLAB script for running three PLS analyses and ge
 3. Run the Analyses - The MATLAB script performs the following steps:
    
     a) Run MC-PLS of Raw Subcortical Volumes: Compares diagnostic groups across time and sex.
-
     b) Generate Figures 1 and 2 (LV1 and LV2 for raw data).
-
     c) Convert Raw Volumes to ICV-Adjusted Volumes: Residualizes subcortical brain volumes for intracranial volume (ICV).
-  
     d) Run MC-PLS on these ICV-adjusted volumes: Compares diagnostic groups across time and sex (2 visits).
-
     e) Generate Figures 3a and 3b (LV1 and LV2 for residualized data).
-
     f) Run MC-PLS of Non-Converters Only: : Compares diagnostic groups across time and sex (N = 85). 
     - Filters out participants who converted to MCI/AD.
-
     g) Generates Figures 4a and 4b (LV1 and LV2 for non-converters).
