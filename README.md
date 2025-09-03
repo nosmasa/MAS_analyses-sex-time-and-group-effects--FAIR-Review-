@@ -14,26 +14,27 @@ This script will be used to run and recreate all the PLS analyses and recreate F
 
 This repository contains the MATLAB script for running three PLS analyses and generating six figures. Follow these steps to reproduce the results:
 
-1. Prepare the Data: Use the data_sorted sheet from the provided excel spreadsheet.
+1. Add paths: PLS files 
+  - Add plscmd folder to the .m file https://github.com/McIntosh-Lab/PLS
+  - Example: git clone https://github.com/McIntosh-Lab/PLS.git
 
-- Import the data into MATLAB as a numeric matrix and name it data.
+2. Prepare the Data: Use the data_sorted sheet from the provided excel spreadsheet.
+  - Import the data into MATLAB as a numeric matrix and name it data.
 
-2. Run the Analyses
+3. Run the Analyses - The MATLAB script performs the following steps:
+   
+  a) Run MC-PLS of Raw Subcortical Volumes: Compares diagnostic groups across time and sex.
 
-The MATLAB script performs the following steps:
+  b) Generate Figures 1 and 2 (LV1 and LV2 for raw data).
 
-a) MC-PLS of Raw Subcortical Volumes: Compares diagnostic groups across time and sex.
+  c) Convert Raw Volumes to ICV-Adjusted Volumes: Residualizes subcortical brain volumes for intracranial volume (ICV).
 
-b) Generate Figures 1 and 2 (LV1 and LV2 for raw data).
+  d) Run MC-PLS on these ICV-adjusted volumes: Compares diagnostic groups across time and sex (2 visits).
 
-c) Convert Raw Volumes to ICV-Adjusted Volumes: Residualizes subcortical brain volumes for intracranial volume (ICV).
+  e) Generate Figures 3a and 3b (LV1 and LV2 for residualized data).
 
-d) Run MC-PLS on these ICV-adjusted volumes: Compares diagnostic groups across time and sex (2 visits).
+  f) Run MC-PLS of Non-Converters Only: : Compares diagnostic groups across time and sex (N = 85). 
 
-e) Generate Figures 3a and 3b (LV1 and LV2 for residualized data).
+    - Filters out participants who converted to MCI/AD.
 
-f) Run MC-PLS of Non-Converters Only: : Compares diagnostic groups across time and sex (N = 85). 
-
-- Filters out participants who converted to MCI/AD.
-
-g) Generates Figures 4a and 4b (LV1 and LV2 for non-converters).
+  g) Generates Figures 4a and 4b (LV1 and LV2 for non-converters).
