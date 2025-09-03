@@ -168,17 +168,18 @@ ggplot(brnstem_3_way, aes(x = Wave, y = yvar, color = interaction(diagnosis_at_b
     text = element_text(family = "serif"))
 
 ## TABLE 5 ----
-# Relationship between subcortical strucutre and cognitive scores 
-female = data.frame(filter(data, Sex == "Female"))
-male = data.frame(filter(data, Sex == "Male"))
+# Relationship between subcortical structure and cognitive scores
 
-CUfem = data.frame(filter(female, diagnosis_at_baseline == "CU"))
-MCIfem = data.frame(filter(female, diagnosis_at_baseline == "MCI"))
+# Split data by sex and diagnosis
+female <- data.frame(filter(data, Sex == "Female"))
+male   <- data.frame(filter(data, Sex == "Male"))
 
-CUmal = data.frame(filter(male, diagnosis_at_baseline == "CU"))
-MCImal = data.frame(filter(male, diagnosis_at_baseline == "MCI"))
+CUfem <- data.frame(filter(female, diagnosis_at_baseline == "CU"))
+MCIfem <- data.frame(filter(female, diagnosis_at_baseline == "MCI"))
+CUmal <- data.frame(filter(male, diagnosis_at_baseline == "CU"))
+MCImal <- data.frame(filter(male, diagnosis_at_baseline == "MCI"))
 
-#Using TIS_years
+# Function to calculate slopes for each variable
 get_slopes <- function(df, time_var = "TIS_years", id_var = "ID") {
   vars <- c(11:34, 36)
   df %>%
@@ -189,119 +190,85 @@ get_slopes <- function(df, time_var = "TIS_years", id_var = "ID") {
     tidyr::pivot_wider(names_from = variable, values_from = slope)
 }
 
+# Compute slopes
 CUfem_slopes   <- get_slopes(CUfem)
 CUmal_slopes   <- get_slopes(CUmal)
 MCIfem_slopes  <- get_slopes(MCIfem)
 MCImal_slopes  <- get_slopes(MCImal)
 
-# Get variable names - can use the same variables for the other groups 
+# Get variable names
 brain_vars <- grep("^(L_|R_|BrainStem)", names(CUfem_slopes), value = TRUE)
 other_vars <- setdiff(names(CUfem_slopes), c("ID", brain_vars))
 
-# Function to get correlation and p-value
+# Function to get correlation + p-value
 get_corr_pval <- function(x, y) {
   result <- cor.test(x, y)
   list(cor = result$estimate, p = result$p.value)
 }
 
-# Initialize empty list to store results for each group 
-CUfem_results <- list()
-CUmal_results <- list()
-MCIfem_results <- list()
-MCImal_results <- list()
+# Function to run correlations
+run_corrs <- function(df_slopes, brain_vars, other_vars) {
+  results <- list()
+  for (bv in brain_vars) {
+    for (ov in other_vars) {
+      x <- df_slopes[[bv]]
+      y <- df_slopes[[ov]]
+      if (is.numeric(x) && is.numeric(y)) {
+        res <- get_corr_pval(x, y)
+        results[[paste(bv, ov, sep = "_vs_")]] <- data.frame(
+          BrainVar = bv,
+          OtherVar = ov,
+          Correlation = res$cor,
+          P_value = res$p
+        )
+      }
+    }
+  }
+  results_df <- do.call(rbind, results)
+  results_df[results_df$P_value < 0.0454, ]
+}
 
-# Loop over combinations of brain_vars and other_vars
-#CU females
-for (bv in brain_vars) {
-  for (ov in other_vars) {
-    x <- CUfem_slopes[[bv]]
-    y <- CUfem_slopes[[ov]]
-    if (is.numeric(x) && is.numeric(y)) {
-      res <- get_corr_pval(x, y)
-      CUfem_results[[paste(bv, ov, sep = "_vs_")]] <- data.frame(
-        BrainVar = bv,
-        OtherVar = ov,
-        Correlation = res$cor,
-        P_value = res$p
-      )
+# Run correlations for each group
+CUfem_sig_results  <- run_corrs(CUfem_slopes, brain_vars, other_vars)
+CUmal_sig_results  <- run_corrs(CUmal_slopes, brain_vars, other_vars)
+MCIfem_sig_results <- run_corrs(MCIfem_slopes, brain_vars, other_vars)
+MCImal_sig_results <- run_corrs(MCImal_slopes, brain_vars, other_vars)
+
+# Load reported results (replace with your file paths)
+MCImal_sig_results_alex <- readRDS("MCImal_sig_results_alex.rds")
+MCIfem_sig_results_alex <- readRDS("MCIfem_sig_results_alex.rds")
+CUfem_sig_results_alex  <- readRDS("CUfem_sig_results_alex.rds")
+CUmal_sig_results_alex  <- readRDS("CUmal_sig_results_alex.rds")
+
+# Compare results
+compare_results <- function(new_results, reported_results, group_name) {
+  # Sort to ensure consistent order
+  new_sorted <- new_results[order(new_results$BrainVar, new_results$OtherVar), ]
+  reported_sorted <- reported_results[order(reported_results$BrainVar, reported_results$OtherVar), ]
+  
+  if (isTRUE(all.equal(new_sorted, reported_sorted, tolerance = 1e-8))) {
+    message(paste(group_name, ": The results are the same"))
+  } else {
+    message(paste(group_name, ": The results are different"))
+    
+    # Show differences if any
+    diff_new <- setdiff(new_sorted, reported_sorted)
+    diff_reported <- setdiff(reported_sorted, new_sorted)
+    
+    if (nrow(diff_new) > 0) {
+      print("Rows in NEW results but not in REPORTED:")
+      print(diff_new)
+    }
+    
+    if (nrow(diff_reported) > 0) {
+      print("Rows in REPORTED results but not in NEW:")
+      print(diff_reported)
     }
   }
 }
 
-CUfem_cor_results <- do.call(rbind, CUfem_results)
-CUfem_sig_results <- CUfem_cor_results[CUfem_cor_results$P_value < 0.0454, ]
-
-# Compare these below results to the CU Female results in Table 5
-View(CUfem_sig_results)
-
-#CU males
-for (bv in brain_vars) {
-  for (ov in other_vars) {
-    x <- CUmal_slopes[[bv]]
-    y <- CUmal_slopes[[ov]]
-    if (is.numeric(x) && is.numeric(y)) {
-      res <- get_corr_pval(x, y)
-      CUmal_results[[paste(bv, ov, sep = "_vs_")]] <- data.frame(
-        BrainVar = bv,
-        OtherVar = ov,
-        Correlation = res$cor,
-        P_value = res$p
-      )
-    }
-  }
-}
-
-CUmal_cor_results <- do.call(rbind, CUmal_results)
-CUmal_sig_results <- CUmal_cor_results[CUmal_cor_results$P_value < 0.0454, ]
-
-#incase the correlations are in scientific notation then run below 
-#CNmal_cor_results$Correlation <- formatC(CNmal_cor_results$Correlation, format = "f", digits = 10)
-
-# Compare these below results to the CU Male results in Table 5
-View(CUmal_sig_results)
-
-#MCI females
-for (bv in brain_vars) {
-  for (ov in other_vars) {
-    x <- MCIfem_slopes[[bv]]
-    y <- MCIfem_slopes[[ov]]
-    if (is.numeric(x) && is.numeric(y)) {
-      res <- get_corr_pval(x, y)
-      MCIfem_results[[paste(bv, ov, sep = "_vs_")]] <- data.frame(
-        BrainVar = bv,
-        OtherVar = ov,
-        Correlation = res$cor,
-        P_value = res$p
-      )
-    }
-  }
-}
-
-MCIfem_cor_results <- do.call(rbind, MCIfem_results)
-MCIfem_sig_results <- MCIfem_cor_results[MCIfem_cor_results$P_value < 0.0454, ]
-
-# Compare these below results to the MCI Female results in Table 5
-View(MCIfem_sig_results)
-
-#MCI males
-for (bv in brain_vars) {
-  for (ov in other_vars) {
-    x <- MCImal_slopes[[bv]]
-    y <- MCImal_slopes[[ov]]
-    if (is.numeric(x) && is.numeric(y)) {
-      res <- get_corr_pval(x, y)
-      MCImal_results[[paste(bv, ov, sep = "_vs_")]] <- data.frame(
-        BrainVar = bv,
-        OtherVar = ov,
-        Correlation = res$cor,
-        P_value = res$p
-      )
-    }
-  }
-}
-
-MCImal_cor_results <- do.call(rbind, MCImal_results)
-MCImal_sig_results <- MCImal_cor_results[MCImal_cor_results$P_value < 0.0454, ]
-
-# Compare these below results to the MCI Male results in Table 5
-View(MCImal_sig_results)
+# Run comparisons
+compare_results(MCImal_sig_results, MCImal_sig_results_alex, "MCI males")
+compare_results(MCIfem_sig_results, MCIfem_sig_results_alex, "MCI females")
+compare_results(CUmal_sig_results, CUmal_sig_results_alex, "CU males")
+compare_results(CUfem_sig_results, CUfem_sig_results_alex, "CU females")
