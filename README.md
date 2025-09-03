@@ -6,7 +6,9 @@ You will need to download the excel file to your local computer to complete the 
 ## R File  
 Use the "after_outliers_removed" sheet from the excel file and run the code in the R script to recreate and check Figures 5 and 6, as well as Table 5. 
 
-1. Download required files to successfully run the R script (download all these files to the same directory):
+1. Download or clone files
+   If downloading: download all these files to the same directory
+   If cloning then: git clone https://github.com/nosmasa/MAS_analyses-sex-time-and-group-effects--FAIR-Review-.git
 - Excel file: MAS_FAIR Review.xlsx (sheet: after_outliers_removed)
 - RDS files:
   - CUmal_sig_results_alex.rds
