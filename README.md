@@ -6,7 +6,7 @@ The excel file can be found on Compute Canada. To access the data/excel file and
 2. Navigate to the folder where you want to run the code, for example, your Documents folder: cd ~/Documents
 3. Clone the repository: git clone https://github.com/nosmasa/MAS_analyses-sex-time-and-group-effects--FAIR-Review-.git
 4. Change into the repository directory: cd MAS_analyses-sex-time-and-group-effects--FAIR-Review-
-5. Copy a file from Compute Canada (replace "username" with your username): scp username @fir.computecanada.ca:/project/def-rmcintos/nosmasa .  --> This will download the file directly into your local repository folder.
+5. Copy a file from Compute Canada (replace "username" with your username): scp username @fir.computecanada.ca:/project/def-rmcintos/data-sets/MAS_analyses .  --> This will download the file directly into your local repository folder.
 
 ## R File  
 Use the "after_outliers_removed" sheet from the excel file and run the code in the R script to recreate and check Figures 5 and 6, as well as Table 5. 
