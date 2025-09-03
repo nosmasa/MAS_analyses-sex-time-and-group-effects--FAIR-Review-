@@ -34,7 +34,6 @@ This repository contains the MATLAB script for running three PLS analyses and ge
   e) Generate Figures 3a and 3b (LV1 and LV2 for residualized data).
 
   f) Run MC-PLS of Non-Converters Only: : Compares diagnostic groups across time and sex (N = 85). 
-
     - Filters out participants who converted to MCI/AD.
 
   g) Generates Figures 4a and 4b (LV1 and LV2 for non-converters).
