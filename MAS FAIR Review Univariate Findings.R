@@ -14,7 +14,7 @@ library(emmeans)
 library(car)
 options(scipen = 999) #this ensure that things are not in scientific notation 
 
-#Set directory (wherever the excel file is saved)
+#Set directory (customize to wherever the excel file is saved on your computer)
 setwd('C:/Users/asamson/Desktop/OneDrive - University of Toronto/Desktop/PhD/Sydney MAS')
 
 #Read in the correct sheet
@@ -272,3 +272,4 @@ compare_results(MCImal_sig_results, MCImal_sig_results_alex, "MCI males")
 compare_results(MCIfem_sig_results, MCIfem_sig_results_alex, "MCI females")
 compare_results(CUmal_sig_results, CUmal_sig_results_alex, "CU males")
 compare_results(CUfem_sig_results, CUfem_sig_results_alex, "CU females")
+
