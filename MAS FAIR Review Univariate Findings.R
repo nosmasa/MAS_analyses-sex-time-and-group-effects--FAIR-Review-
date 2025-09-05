@@ -18,7 +18,7 @@ options(scipen = 999) #this ensure that things are not in scientific notation
 setwd('C:/Users/asamson/Desktop/OneDrive - University of Toronto/Desktop/PhD/Sydney MAS')
 
 #Read in the correct sheet
-data <- read_excel("MAS_FAIR Review.xlsx",sheet="after_outliers_removed")
+data <- read_excel("MAS_FAIR_Review.xlsx",sheet="after_outliers_removed")
 
 #Setting up the dataframe 
 #convert time in study (TIS) to years
@@ -272,4 +272,5 @@ compare_results(MCImal_sig_results, MCImal_sig_results_alex, "MCI males")
 compare_results(MCIfem_sig_results, MCIfem_sig_results_alex, "MCI females")
 compare_results(CUmal_sig_results, CUmal_sig_results_alex, "CU males")
 compare_results(CUfem_sig_results, CUfem_sig_results_alex, "CU females")
+
 
