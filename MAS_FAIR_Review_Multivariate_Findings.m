@@ -42,8 +42,8 @@ group_names = { ...
     'MCI Mal W2', 'MCI Mal W4'};
 
 %add PLS paths, example: 
-addpath 'PLS Files'\
-addpath 'plscmd'\
+addpath 'PLS Files'
+addpath 'plscmd'
 
 %% RUN MC-PLS of brain values across diagnostic groups, time, and sex
 clear option 
@@ -279,4 +279,5 @@ xtickangle(45);
 xticklabels(group_names);
 
 ylabel('Design Saliences');
+
 
